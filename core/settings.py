@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # external
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
@@ -41,6 +42,15 @@ REST_FRAMEWORK = {
     )
 }
 
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Auth Token | Bearer (JWT)': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

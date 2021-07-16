@@ -3,13 +3,13 @@ from app.api import serializes
 from app import models
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework import status
+
 
 class NoteBlocksViewsets(generics.ListCreateAPIView):
-    queryset = models.NoteBlock.objects.all()
+    queryset = models.NoteBlock.objects.all().order_by('-updated_at')
     permission_classes = (IsAuthenticated,)
     serializer_class = serializes.NoteBlockSerializer
+
 
     def get_queryset(self):
         return self.queryset.filter(created_by=self.request.user)
