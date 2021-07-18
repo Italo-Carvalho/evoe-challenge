@@ -1,12 +1,9 @@
-import re
 import requests
 import json
-from flask import session, request
-from werkzeug.utils import redirect
 
 
 class WebService():
-    url = 'http://127.0.0.1:8000'
+    url = 'http://0.0.0.0:8000' 
     refresh = None
 
     def createUser(self, username, password):

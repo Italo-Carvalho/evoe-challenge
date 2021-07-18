@@ -1,7 +1,7 @@
 
 from app import app
 from .api import WebService
-from flask import render_template, redirect, request, session, make_response
+from flask import render_template, redirect, request
  
 @app.route('/', methods=['GET', 'POST'])
 def Authentication():
