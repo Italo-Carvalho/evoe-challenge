@@ -1,9 +1,9 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from app.api import serializes
 from app import models
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-
+from django.contrib.auth.models import User
 
 class NoteBlocksViewsets(generics.ListCreateAPIView):
     queryset = models.NoteBlock.objects.all().order_by('-updated_at')
@@ -27,3 +27,8 @@ class NoteBlockViewsets(generics.RetrieveUpdateDestroyAPIView):
         note = get_object_or_404(self.get_queryset()
             ,pk=self.kwargs.get('note_pk'), created_by= self.request.user)
         return note
+
+class UserCreateAPIView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = serializes.UserSerializer

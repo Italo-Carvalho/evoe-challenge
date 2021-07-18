@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}List |{% endblock %}
+{% block content %}
+
+
+<div class="todo-container">
+    <h1 class='text-center text-white'>Note Blocks <i class="far fa-sticky-note"></i></h1>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Create <i class="far fa-edit"></i>
+</button>
+<a class="btn btn-danger mt-4 mb-2" href="?logout=True" style='float: right;'>
+  Logout <i class="fas fa-sign-out-alt"></i>
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create a new note block <i class="far fa-plus-square"></i></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form  method='post' action='.'>
+      <input type='hidden' value="{{ request.args.get('refresh') }}" name="refresh">
+        <div class="modal-body">
+              <input type="text" class="form-control mb-2" placeholder='Title...' name='title' required>
+              <textarea class="form-control" placeholder='body...' name='body' rows="3" required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="submit" name='create'  class="btn btn-success">Save</button>
+        </div>
+      </form>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+{% for nb in data.results %}
+<form  method='post' action='.' class='mt-1'>
+    <input type='hidden' value="{{ request.args.get('refresh') }}" name="refresh">
+      <input type='hidden' name='pk'value='{{nb.pk}}'>
+      <div class="input-group">
+        <input type="text" class="form-control" name='title' value="{{nb.title}}" aria-describedby="inputGroupPrepend" required>
+
+        <div class="input-group-prepend">
+          <button type='submit' name='save' class="btn btn-primary rounded-0" ><i class="fas fa-save"></i></button>
+        </div>
+
+        <div class="input-group-prepend">
+          <button type='submit' name='delete' class="btn btn-danger rounded-0" ><i class="fas fa-trash-alt"></i></button>
+        </div>
+
+        <div class="input-group-prepend">
+          <a class="btn btn-warning rounded-end"  data-bs-toggle="collapse" href="#ntblock-{{nb.pk}}" role="button" aria-expanded="false" aria-controls="ntblock-{{nb.pk}}" style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;"><i class="fas fa-chevron-down"></i></a>
+        </div>
+
+      </div>
+
+    <div class="collapse" id="ntblock-{{nb.pk}}">
+    <div class="form-group">
+        <textarea class="form-control" name='body' rows="3" style="border-top: 0;border-top-left-radius: 0;border-top-right-radius: 0;" required>{{nb.body}}</textarea>
+    </div>
+    </div>
+</form>
+{% endfor %}
+
+<nav aria-label="Page navigation example" class='mt-2'>
+  <ul class="pagination justify-content-center">
+    <li class="page-item {% if not pageprev %}disabled{% endif %} ">
+      <a class="page-link" href="?page={{page - 1}}&refresh={{refresh}}" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    <li class="page-item {% if not pagenext %}disabled{% endif %}">
+      <a class="page-link" href="?page={{page + 1}}&refresh={{refresh}}">Next</a>
+    </li>
+  </ul>
+</nav>
+
+</div>
+
+{% endblock %}    
+{% block scripts %}
+<script>
+
+</script>
+{% endblock %}
